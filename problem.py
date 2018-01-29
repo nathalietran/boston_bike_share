@@ -43,7 +43,7 @@ class MAE(BaseScoreType):
     def __call__(self, y_true, y_pred):
         return np.mean(np.abs((y_true - y_pred)))
 
-# New Error 
+# New Error
 # To penalize if more one did not predict a 'risk zone'
 
 class Danger_Score(BaseScoreType):
@@ -64,23 +64,23 @@ class Danger_Score(BaseScoreType):
                 idx_tmp = idx + j
                 tmp = abs(y_true[idx_tmp] - y_pred[idx_tmp])
                 score += tmp
-                
-                # if the true value is "at risk", but not the predicted value 
+
+                # if the true value is "at risk", but not the predicted value
                 if y_true[idx_tmp] >= np.int(docks_by_station[j] * 0.9):
                     if y_pred[idx_tmp] < np.int(docks_by_station[j] * 0.9):
                         score += 2 * tmp
                 elif y_true[idx_tmp] <= np.int(docks_by_station[j] * 0.1) + 1:
                     if y_pred[idx_tmp] > np.int(docks_by_station[j] * 0.1):
                         score += 2 * tmp
-                
+
                 # if the true value is not "at risk", but the predicted value is
-                else: 
+                else:
                     if y_pred[idx_tmp] >= np.int(docks_by_station[j] * 0.9):
                         score += tmp
                     if y_pred[idx_tmp] <= np.int(docks_by_station[j] * 0.1) + 1:
                         score += tmp
         return (score / n)
-            
+
 
 
 score_types = [
@@ -97,12 +97,12 @@ def _read_data(path, f_name):
 
 
 def get_train_data(path='.'):
-    f_name = 'train.csv'
+    f_name = 'train.csv.bz2'
     return _read_data(path, f_name)
 
 
 def get_test_data(path='.'):
-    f_name = 'test.csv'
+    f_name = 'test.csv.bz2'
     return _read_data(path, f_name)
 
 NB_STATIONS = 171
