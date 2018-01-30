@@ -4,6 +4,7 @@ from sklearn.linear_model import BayesianRidge
 
 # Remember : there are 171 stations
 
+
 class Regressor(BaseEstimator):
     def __init__(self):
         self.reg = []
@@ -15,7 +16,6 @@ class Regressor(BaseEstimator):
             self.reg[i].fit(X[i::171], y[i::171].ravel())
 
     def predict(self, X):
-        nb_rows = X.shape[0]
         y_tmp = []
         for i in range(171):
             y_tmp.append(self.reg[i].predict(X[i::171]))

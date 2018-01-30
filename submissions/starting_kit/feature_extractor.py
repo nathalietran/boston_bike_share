@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 
+
 class FeatureExtractor():
 
     def __init__(self):
@@ -11,13 +12,11 @@ class FeatureExtractor():
         pass
 
     def transform(self, X_df):
-        lats = np.unique(X_df['Latitude'].values)
-        longs = np.unique(X_df['Longitude'].values)
-        nb_docks = np.unique(X_df['# of Docks'].values)
         X_df = X_df.copy()
-        X_df.drop(['Latitude', 'Longitude', '# of Docks'], axis=1, inplace=True)
+        X_df.drop(['Latitude', 'Longitude', '# of Docks'],
+                  axis=1, inplace=True)
 
-        X_df['time'] = pd.to_datetime(X_df['day'] + ' ' +  X_df['timestamp'])
+        X_df['time'] = pd.to_datetime(X_df['day'] + ' ' + X_df['timestamp'])
         X_df.drop(['day', 'timestamp'], axis=1, inplace=True)
 
         ohe_day = OneHotEncoder()
@@ -36,4 +35,6 @@ class FeatureExtractor():
         temp = X_df['temp'].values
         rain_fall = X_df['precip'].values
 
-        return np.c_[week_day_ohe_sparse.todense(), hours_ohe_sparse.todense(), temp, rain_fall]
+        return np.c_[week_day_ohe_sparse.todense(),
+                     hours_ohe_sparse.todense(),
+                     temp, rain_fall]
