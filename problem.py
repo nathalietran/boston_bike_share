@@ -97,7 +97,12 @@ def _read_data(path, f_name):
     data = pd.read_csv(os.path.join(path, 'data', f_name))
     y_array = data[_target_column_names].values
     X_df = data.drop(_target_column_names, axis=1)
-    return X_df, y_array
+    test = os.getenv('RAMP_TEST_MODE', 0)
+    if test:
+        # 3 first months (around 60 days)
+        return X_df[:984960], y_array[:984960]
+    else:
+        return X_df, y_array
 
 
 def get_train_data(path='.'):
