@@ -14,6 +14,9 @@ Predictions = rw.prediction_types.make_regression(
 # An object implementing the workflow
 workflow = rw.workflows.FeatureExtractorRegressor()
 
+
+# Useful for a score (see below)
+
 docks_by_station = {0: 15, 1: 15, 2: 15, 3: 15, 4: 15, 5: 19, 6: 11, 7: 15, 8: 15, 9: 19, 10: 21, 11: 15, 12: 19,
  13: 15, 14: 15, 15: 19, 16: 25, 17: 46, 18: 21, 19: 19, 20: 15, 21: 15, 22: 15, 23: 15, 24: 15, 25: 15, 26: 11,
  27: 15, 28: 23, 29: 25, 30: 15, 31: 19, 32: 19, 33: 22, 34: 15, 35: 19, 36: 19, 37: 19, 38: 18, 39: 19, 40: 19,
@@ -31,6 +34,7 @@ docks_by_station = {0: 15, 1: 15, 2: 15, 3: 15, 4: 15, 5: 19, 6: 11, 7: 15, 8: 1
 
 
 # Mean Absolute Error
+
 class MAE(BaseScoreType):
     is_lower_the_better = True
     minimum = 0.0
@@ -44,7 +48,7 @@ class MAE(BaseScoreType):
         return np.mean(np.abs((y_true - y_pred)))
 
 # New Error
-# To penalize if more one did not predict a 'risk zone'
+# To penalize more if one did not predict a 'risk zone'
 
 class Danger_Score(BaseScoreType):
     is_lower_the_better = True
